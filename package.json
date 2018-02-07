@@ -1,0 +1,31 @@
+{
+  "name": "magnium",
+  "version": "1.0.0",
+  "description": "An ES6 based framework for building Titanium apps",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "erbium",
+    "titanium",
+    "mobile",
+    "ios",
+    "iphone",
+    "android",
+    "es6",
+    "framework"
+  ],
+  "author": {
+    "name": "SpiralArm Consulting Ltd.",
+    "email": "projects@spiralarm.uk"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "babel-cli": "6.26.0",
+    "chalk": "2.3.0",
+    "fs-extra": "5.0.0",
+    "shelljs": "0.8.0",
+    "xmldom": "0.1.27",
+    "yargs": "10.1.1"
+  }
+}
