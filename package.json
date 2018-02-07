@@ -19,6 +19,10 @@
     "name": "SpiralArm Consulting Ltd.",
     "email": "projects@spiralarm.uk"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/magnatronus/magnium.git"
+  }
   "license": "MIT",
   "dependencies": {
     "babel-cli": "6.26.0",
