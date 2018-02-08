@@ -1,6 +1,6 @@
 {
   "name": "magnium",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An ES6 based framework for building Titanium mobile apps",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
