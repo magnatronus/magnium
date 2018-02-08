@@ -1,0 +1,22 @@
+{
+  "name": "EMP",
+  "version": "1.0.0",
+  "author": "SpiralArm Consulting Ltd",
+  "description": "configuration file for transpiling an Erbium mobile Titanium project",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "babel-preset-env": "1.6.1"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ],
+    "plugins": [
+      "transform-object-rest-spread"
+    ],
+    "ignore": [
+      "/system/static/*"
+    ]
+  }
+}

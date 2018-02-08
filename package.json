@@ -5,8 +5,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "magnium-init": "./cli-init.js",
+    "magnium-create": "./cli-create.js",
+    "magnium-build": "./cli-build.js"
+  },
   "keywords": [
-    "erbium",
+    "magnium",
     "titanium",
     "mobile",
     "ios",
