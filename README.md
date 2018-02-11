@@ -34,11 +34,23 @@ Magnium provides a simple framework that allows Titanium projects to be written 
 
 The result of this should be a subdirectory named *titanium* that will have a complete project in. To test it just run the following Ti CLI command.
 
+for iOS
+
 ```
 ti build -p ios --log-level info -d titanium
 ```
 
-This should build and run the project in an iOS simulator if all the other steps completed satisfactorily.
+for Android
+
+```
+ti build -p android --log-level info -d titanium --device-id
+```
+
+*[adding --device-id allows you to select an emulator]*
+
+
+
+This should build and run the project in a simulator/emulator if all the other steps completed satisfactorily.
 
 ## More Detail
 For more detailed information of Magnium and it's use see the [wiki here](https://github.com/magnatronus/magnium/wiki)
