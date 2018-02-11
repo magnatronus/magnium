@@ -33,12 +33,12 @@ if(fs.pathExistsSync(wsfile)){
     const defaults = {
         "publisher": "SpiralArm Consulting Ltd",
         "copyright": "2018 SpiralArm Consulting Ltd",
-        "hyperloop": "ios,android",
+        "hyperloop": "",
         "analytics": false,
         "appId": "uk.spiralarm.",
         "loglevel": "info",
         "platforms": "ios,android",
-        "sdk": "7.0.1.GA",
+        "sdk": "7.0.2.GA",
         "url": "http://www.spiralarm.uk"
     };
 
