@@ -52,6 +52,19 @@ ti build -p android --log-level info -d titanium --device-id
 
 This should build and run the project in a simulator/emulator if all the other steps completed satisfactorily.
 
+
+## Android Assets
+There is a new CLI command that can be used to generate a default set of icons and splash screens for an Android app using the DefaultIcon.png.
+
+```
+magnium-assets
+```
+
+If used it should be run after **magnium-build** and before using the Ti CLI to build the Titanium project.
+
+** Please note this will only work if you have correct installed [TiCons](http://ticons.fokkezb.nl/) and any required depedencies.**
+
+
 ## More Detail
 For more detailed information of Magnium and it's use see the [wiki here](https://github.com/magnatronus/magnium/wiki)
 

@@ -1,6 +1,6 @@
 {
   "name": "magnium",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An ES6 based framework for building Titanium mobile apps",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -8,9 +8,11 @@
   "bin": {
     "magnium-init": "./cli-init.js",
     "magnium-create": "./cli-create.js",
-    "magnium-build": "./cli-build.js"
+    "magnium-build": "./cli-build.js",
+    "magnium-assets": "./cli-assets.js"
   },
   "keywords": [
+    "cli",
     "magnium",
     "titanium",
     "mobile",
