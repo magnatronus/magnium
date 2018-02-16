@@ -1,15 +1,11 @@
 {
   "name": "magnium",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "An ES6 based framework for building Titanium mobile apps",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "./lib/magnium",
   "bin": {
-    "magnium-init": "./cli-init.js",
-    "magnium-create": "./cli-create.js",
-    "magnium-build": "./cli-build.js",
-    "magnium-assets": "./cli-assets.js"
+    "ma": "./bin/magnium",
+    "magnium": "./bin/magnium"
   },
   "keywords": [
     "cli",
@@ -23,8 +19,12 @@
     "framework"
   ],
   "author": {
-    "name": "SpiralArm Consulting Ltd.",
-    "email": "projects@spiralarm.uk"
+    "name": "SpiralArm Consulting ltd",
+    "email": "magnium@spiralarm.uk",
+    "copyright": "Copyright (c) 2018 SpiralArm Consulting Ltd. All Rights Reserved."
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -33,10 +33,10 @@
   "license": "MIT",
   "dependencies": {
     "babel-cli": "6.26.0",
-    "chalk": "2.3.0",
+    "chalk": "2.3.1",
     "fs-extra": "5.0.0",
-    "shelljs": "0.8.0",
+    "shelljs": "0.8.1",
     "xmldom": "0.1.27",
-    "yargs": "10.1.1"
+    "yargs": "11.0.0"
   }
 }

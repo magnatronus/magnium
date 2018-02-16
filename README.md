@@ -22,15 +22,24 @@ in a terminal.
 
     [sudo] npm install -g magnium
 
+## 1.1 Update
+The CLI has now been updated to run as a single command with options. You can use either **ma** or **magnium** to run the CLI with the following options:
+- init
+- create
+- build
+- assets
+
+
 # Using Magnium
 Magnium provides a simple framework that allows Titanium projects to be written using ES6. It does this by using it's own custom project structure that is transpiled into a standard Titanium classic project that can then be run on  simulator, device or compiled for distro using the Titanium CLI. Below is a quick overview of the steps to do this, all commands should be run in a Terminal.
 
-**NB: 08 Feb 2019: this has only been tested on a MAC currently and is just an overview of how to get a project up and running**
+**NB:this has only been tested on a MAC currently and is just an overview of how to get a project up and running**
 
 - Open a Terminal and create a new directory (*mkdir magnium*)
-- **cd** to that directory and initialise the magnium workspace (*magnium-init*)
-- Create a new magnium project called **helloworld** (*magnium-create --name helloworld*)
-- Use magnium to generate a standard Ttanium project (*magnium-build --name helloworld*)
+- **cd** to that directory and initialise the magnium workspace (*magnium init*)
+- Create a new magnium project called **helloworld** (*magnium create helloworld*)
+- Use magnium to generate a standard Titanium project (*magnium build helloworld*)
+- Generate the project Android assets, optional and requires TiCons installed (*magnium assets*)
 
 The result of this should be a subdirectory named *titanium* that will have a complete project in. To test it just run the following Ti CLI command.
 
@@ -53,16 +62,17 @@ ti build -p android --log-level info -d titanium --device-id
 This should build and run the project in a simulator/emulator if all the other steps completed satisfactorily.
 
 
-## Android Assets
-There is a new CLI command that can be used to generate a default set of icons and splash screens for an Android app using the DefaultIcon.png.
+## Assets CLI command
+This command was added to provide a quick way to generate some assets for an Android project, similar to the way Titanum does for iOS.
+It can be used to generate a default set of icons and splash screens for an Android app using the project's **DefaultIcon.png**.
 
 ```
-magnium-assets
+magnium assets
 ```
 
-If used it should be run after **magnium-build** and before using the Ti CLI to build the Titanium project.
+If used it should be run after **magnium build** and before using the Ti CLI to build the Titanium project.
 
-** Please note this will only work if you have correct installed [TiCons](http://ticons.fokkezb.nl/) and any required depedencies.**
+**Please note this will only work if you have correct installed [TiCons](http://ticons.fokkezb.nl/) and any required depedencies (imagemagick).**
 
 
 ## More Detail
