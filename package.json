@@ -1,6 +1,6 @@
 {
   "name": "magnium",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "An ES6 based framework for building Titanium mobile apps",
   "main": "./lib/magnium",
   "bin": {
@@ -16,12 +16,12 @@
     "iphone",
     "android",
     "es6",
+    "babel",
     "framework"
   ],
   "author": {
     "name": "SpiralArm Consulting ltd",
-    "email": "magnium@spiralarm.uk",
-    "copyright": "Copyright (c) 2018 SpiralArm Consulting Ltd. All Rights Reserved."
+    "email": "magnium@spiralarm.uk"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
