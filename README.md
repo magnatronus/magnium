@@ -72,7 +72,7 @@ magnium assets
 
 If used it should be run after **magnium build** and before using the Ti CLI to build the Titanium project.
 
-**Please note this will only work if you have correct installed [TiCons](http://ticons.fokkezb.nl/) and any required depedencies (imagemagick).**
+**Please note this will only work if you have correctly installed [TiCons](http://ticons.fokkezb.nl/) and any required depedencies (imagemagick).**
 
 
 ## More Detail

@@ -24,8 +24,9 @@ if(Magnium.isAndroid){
 
 class AndroidPDFViewer extends Component{
 
-    // Before we generate the PDF view record the filename
-    beforeView({pdf=false}) {
+    // Before we generate the PDF view record the filename and any scalefactor
+    beforeView({pdf=false, scaleFactor=2}) {
+        this.scaleFactor = scaleFactor;
         this.pdf = pdf;
         this.pageCount = 0;        
     }
@@ -67,7 +68,7 @@ class AndroidPDFViewer extends Component{
         if(this._renderer){
 
             const currentPage = this._renderer.openPage((pagenum - 1));
-            const bitmap = Bitmap.createBitmap(currentPage.getWidth(), currentPage.getHeight(), Bitmap.Config.ARGB_8888);
+            const bitmap = Bitmap.createBitmap((currentPage.getWidth() * this.scaleFactor), (currentPage.getHeight() * this.scaleFactor), Bitmap.Config.ARGB_8888);
             currentPage.render(bitmap, null, null, PDFRenderer.Page.RENDER_MODE_FOR_DISPLAY); 
 
             // display bitmap
