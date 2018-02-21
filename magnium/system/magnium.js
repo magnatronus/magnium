@@ -34,25 +34,6 @@ const MAG_AND_PHY_SIZE  = (MAG_OSNAME === 'android')?Titanium.Platform.Android.p
 const MAG_AND_LARGE     = (MAG_OSNAME === 'android')?Ti.Platform.Android.PHYSICAL_SIZE_CATEGORY_LARGE:-1;
 const MAG_AND_XLARGE    = (MAG_OSNAME === 'android')?Ti.Platform.Android.PHYSICAL_SIZE_CATEGORY_XLARGE:-1;
 
-// Test Function for testing/checking screen params
-function screenCaps() {
-  Ti.API.info('Ti.Platform.displayCaps.density: ' + Ti.Platform.displayCaps.density);
-  Ti.API.info('Ti.Platform.displayCaps.dpi: ' + Ti.Platform.displayCaps.dpi);
-  Ti.API.info('Ti.Platform.displayCaps.platformHeight: ' + Ti.Platform.displayCaps.platformHeight);
-  Ti.API.info('Ti.Platform.displayCaps.platformWidth: ' + Ti.Platform.displayCaps.platformWidth);
-  if((Ti.Platform.osname === 'iphone')||(Ti.Platform.osname === 'ipad')||(Ti.Platform.osname === 'android')){
-    Ti.API.info('Ti.Platform.displayCaps.logicalDensityFactor: ' + Ti.Platform.displayCaps.logicalDensityFactor);
-  }
-  if(Ti.Platform.osname === 'android'){
-    Ti.API.info('Ti.Platform.displayCaps.xdpi: ' + Ti.Platform.displayCaps.xdpi);
-    Ti.API.info('Ti.Platform.displayCaps.ydpi: ' + Ti.Platform.displayCaps.ydpi);
-  }
-}
-
-// print out the screen caps
-//screenCaps();
-
-
 
 /**
  * Our main export
@@ -63,6 +44,22 @@ const Magnium = {
   isAndroid: (MAG_OSNAME == 'android'),
   isIOS: (MAG_OSNAME == 'iphone' || MAG_OSNAME == 'ipad'),
   isTablet: (MAG_OSNAME === 'ipad' || (MAG_OSNAME === 'android' && (MAG_AND_PHY_SIZE===MAG_AND_LARGE||MAG_AND_PHY_SIZE===MAG_AND_XLARGE))),
+
+
+  // Allow printing of screen params
+  screenCaps: () => {
+    Ti.API.info('Ti.Platform.displayCaps.density: ' + Ti.Platform.displayCaps.density);
+    Ti.API.info('Ti.Platform.displayCaps.dpi: ' + Ti.Platform.displayCaps.dpi);
+    Ti.API.info('Ti.Platform.displayCaps.platformHeight: ' + Ti.Platform.displayCaps.platformHeight);
+    Ti.API.info('Ti.Platform.displayCaps.platformWidth: ' + Ti.Platform.displayCaps.platformWidth);
+    if((Ti.Platform.osname === 'iphone')||(Ti.Platform.osname === 'ipad')||(Ti.Platform.osname === 'android')){
+      Ti.API.info('Ti.Platform.displayCaps.logicalDensityFactor: ' + Ti.Platform.displayCaps.logicalDensityFactor);
+    }
+    if(Ti.Platform.osname === 'android'){
+      Ti.API.info('Ti.Platform.displayCaps.xdpi: ' + Ti.Platform.displayCaps.xdpi);
+      Ti.API.info('Ti.Platform.displayCaps.ydpi: ' + Ti.Platform.displayCaps.ydpi);
+    }
+  },
 
   // function to get the screen size
   screenSize: () => {
