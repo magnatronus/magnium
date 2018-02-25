@@ -110,6 +110,11 @@ export class Component {
 
   }
 
+  // our destructor - kindof
+  destroy() {
+    console.log("destroy() called...................");
+  }
+
   // Getter to return the generate UI View
   get view() {
     if(!this._view) {

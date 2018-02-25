@@ -4,7 +4,7 @@
  * copyright SpiralArm Consulting Ltd 2018
  */
 import Magnium, { Component } from '/system/magnium';
-var Bitmap,
+var 
     Activity,
     ImageView,
     File,
@@ -13,8 +13,7 @@ var Bitmap,
 
 // Get ref to Hyperloop code depending on platform
 if(Magnium.isAndroid){
-    Bitmap = require('android.graphics.Bitmap');
-    Activity = require('android.app.Activity');
+   Activity = require('android.app.Activity');
     ImageView = require('android.widget.ImageView');
     File = require("java.io.File");
     ParcelFileDescriptor = require("android.os.ParcelFileDescriptor");
@@ -25,93 +24,101 @@ if(Magnium.isAndroid){
 class AndroidPDFViewer extends Component{
 
     // Before we generate the PDF view record the filename and any scalefactor
-    beforeView({pdf=false, scaleFactor=2}) {
+    beforeView({pdf=false, scaleFactor=1}) {
         this.scaleFactor = scaleFactor;
         this.pdf = pdf;
-        this.pageCount = 0;        
+        this._mFileDescriptor = null; 
+        this._renderer = null;     
     }
 
     // This is used to just get the first page and then close the  PDF - used for quick views
     getPreview() {
         this.openPDF();
-        this.showPage(1);
+        this.showPage();
         this.closePDF();
     }
 
     // This opens the PDF ready for use - IMPORTANT - MAKE SURE IT GETS CLOSED!!
     openPDF() {
-        if(!this._renderer){
-            if(this.pdf){
-                const file = new File(this.pdf);
-                if(!file.exists()){
-                    throw new Error(`Selected PDF file does not exist or cannot be found - ${this.pdf}`);
-                }
-          
-                // now access it it with PDFRenderer
-                const mFileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
-                this._renderer = new PDFRenderer(mFileDescriptor);
-                this.pageCount = this._renderer.getPageCount();
+        if(this._renderer == null){
+            const file = new File(this.pdf);
+            if(!file.exists()){
+                throw new Error(`Selected PDF file does not exist or cannot be found - ${this.pdf}`);
+            }
+            this._mFileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
+            if(this._mFileDescriptor != null){
+                this._renderer = new PDFRenderer(this._mFileDescriptor);
             }
         }
     }
 
+    pageCount() {
+        return this._renderer.getPageCount();
+    }
 
     // Display the selected PDF page
-    showPage (pagenum) {
+    showPage (pagenum=1) {
+ 
+        // remove any existing image
+        this.image.setImageBitmap(null);
 
         // check if the page is valid - if not just ignore
-        if( pagenum < 1 || pagenum > this.pageCount){
-            throw new Error("Unable to display page - Invalid page number");
+        if( pagenum < 1 || pagenum > this._renderer.getPageCount()){
+            throw new Error("Unable to display page - Invalid page number.");
+        }
+
+        // if currentPage close it first
+        if(this._currentPage != null){
+            this._currentPage.close();
+            this._currentPage = null;
         }
 
         // now check if we can render the selected page
         if(this._renderer){
-
-            const currentPage = this._renderer.openPage((pagenum - 1));
-            const bitmap = Bitmap.createBitmap((currentPage.getWidth() * this.scaleFactor), (currentPage.getHeight() * this.scaleFactor), Bitmap.Config.ARGB_8888);
-            currentPage.render(bitmap, null, null, PDFRenderer.Page.RENDER_MODE_FOR_DISPLAY); 
-
-            // display bitmap
-            this.image.setImageBitmap(bitmap);
-
-            // always close the page
-            currentPage.close();
+            const Bitmap = require('android.graphics.Bitmap');
+            this._currentPage = this._renderer.openPage((pagenum - 1));
+            const pagebmp = Bitmap.createBitmap((this._currentPage.getWidth() * this.scaleFactor), (this._currentPage.getHeight() * this.scaleFactor), Bitmap.Config.ARGB_8888);
+            this._currentPage.render(pagebmp, null, null, PDFRenderer.Page.RENDER_MODE_FOR_DISPLAY); 
+            this.image.setImageBitmap(pagebmp);
         }
 
     }
 
     // Make sure we can tidy up
     closePDF() {
+
+        if(this._currentPage != null){
+            this._currentPage.close();
+            this._currentPage = null;
+        }
+        
         if(this._renderer){
             this._renderer.close();
+            this._renderer = null;
         }
+
+        if(this._mFileDescriptor){
+            this._mFileDescriptor.close();
+            this._mFileDescriptor = null;
+        }        
     }
 
     /**
-     * Generate the view required to hold the PDF Bitmap image
+     * Generate the imageView required to hold the PDF Bitmap image
      */
     generateView() {
-
-        // create the container view
-        const container = Ti.UI.createView(styles.containerStyle);
-
-        // create the required image view and add it to the container
         var activity = new Activity(Ti.Android.currentActivity);
         this.image = new ImageView(activity);
-        container.add(this.image);
-        return container; 
+        return this.image; 
+    }
 
+
+    destroy() {
+        this.closePDF();
+        this.image = null;
     }
 
 }
 
-const styles = {
-
-    containerStyle: {
-        height: Ti.UI.FILL, 
-        width: Ti.UI.FILL,  
-        backgroundColor: 'white'        
-    }
-};
 
 export default AndroidPDFViewer;
