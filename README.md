@@ -4,6 +4,48 @@ Magnium is a
 [Command Line Tool](http://en.wikipedia.org/wiki/Command-line_interface)
 and Framework for building Titanium based mobile applications using ES6.
 
+## MSX Branch updates
+
+This is a test branch where I have added the ability to define the the APP UI using markup similar to JSX or the XML in an Alloy View. At the moment this is very 'alpha'  (thats short for simple) but it is working and may provide an alternative to the current **generateView** coding. Below is an example of the differences between the old and new **generateView** code.
+
+```
+generateView() {
+    const  win = Ti.UI.createWindow({"backgroundColor":"#999999"});
+    const  viewOne = Ti.UI.createView({"backgroundColor":"#E6E6E6","top":"50","left":"10","right":"10","height":"200"});
+    win.add(viewOne);
+    this.buttonOne = Ti.UI.createButton({"id":"buttonOne","backgroundColor":"blue","title":"BUTTON ONE","height":"40","width":"100"});
+    viewOne.add(this.buttonOne);
+    const viewTwo = Ti.UI.createView({"backgroundColor":"pink","top":"250","left":"10","right":"10","height":"200"});
+    win.add(viewTwo);
+    this.buttonTwo = Ti.UI.createButton({"id":"buttonTwo","backgroundColor":"yellow","title":"BUTTON TWO","height":"40","width":"100"});
+    viewTwo.add(this.buttonTwo);
+    return  win;
+}
+```
+
+the new version
+
+```
+generateView() {
+
+    _MAGUI(
+      <Window backgroundColor="#999999">
+        <View backgroundColor="#E6E6E6" top="50" left="10" right="10" height="200">
+          <Button id="buttonOne" backgroundColor="blue" title="BUTTON ONE" height="40" width="100" />
+        </View>
+        <View backgroundColor="pink" top="250" left="10" right="10" height="200">
+          <Button id="buttonTwo" backgroundColor="yellow" title="BUTTON TWO" height="40" width="100" />
+        </View>
+      </Window>     
+    )
+
+}
+```
+
+There is a [sample Magnium project here](https://github.com/magnatronus/magui-demo)
+
+
+
 ## Prerequisites
 
 The Magnium Framework and associated CLI depends on an installed and working version of Axway's Appcelerator Titanium.
