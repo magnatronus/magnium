@@ -1,6 +1,6 @@
 {
   "name": "magnium",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "An ES6 based framework for building Titanium mobile apps",
   "main": "./lib/magnium",
   "bin": {
@@ -36,6 +36,7 @@
     "chalk": "2.3.1",
     "fs-extra": "5.0.0",
     "shelljs": "0.8.1",
+    "xmldoc": "^1.1.0",
     "xmldom": "0.1.27",
     "yargs": "11.0.0"
   }

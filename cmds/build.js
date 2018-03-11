@@ -13,7 +13,8 @@ const   args = require("yargs").argv,
         fs = require("fs-extra"),
         spawn = require( 'child_process' ).spawnSync,
         workspacedir = process.cwd(),
-        wsfile = `.magniumrc`,        
+        wsfile = `.magniumrc`,   
+        magpie = require('../lib/support'),     
         log = console.log;
 
 
@@ -108,6 +109,14 @@ exports.handler = function (argv) {
     }
 
 
+    /** START Of UI generator testing ------------------------------------------------------------------------------- 
+     */
+    let rootdir = `${projectbuilddir}/code`;
+    fs.readdirSync(rootdir).forEach(file => {
+        magpie.processFile(`${rootdir}/${file}`);
+    });
+    /** END OF UI generator------------------------------------------------------------------------------------ */
+
     // make sure the final output dir exists
     fs.ensureDirSync(`${workspacedir}/${resource.output}`);
 
@@ -141,5 +150,5 @@ exports.handler = function (argv) {
     
     }
     log((chalk.green("[INFO] - Magnium Build complete......")));    
-
+  
 }
