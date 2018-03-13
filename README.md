@@ -8,6 +8,8 @@ and Framework for building Titanium based mobile applications using ES6.
 
 This is a test branch where I have added the ability to define the the APP UI using markup similar to JSX or the XML in an Alloy View. At the moment this is very 'alpha'  (thats short for simple) but it is working and may provide an alternative to the current **generateView** coding. Below is an example of the differences between the old and new **generateView** code.
 
+Updated so that anuy GUI markup should now be wrapped in a <UI></UI> tag. 
+
 ```
 generateView() {
     const  win = Ti.UI.createWindow({"backgroundColor":"#999999"});
@@ -23,23 +25,22 @@ generateView() {
 }
 ```
 
-the new version
+the new version (with sample for adding events in GUI code)
 
 ```
-generateView() {
-
-    _MAGUI(
+  generateView() {
+    <UI>
       <Window backgroundColor="#999999">
         <View backgroundColor="#E6E6E6" top="50" left="10" right="10" height="200">
-          <Button id="buttonOne" backgroundColor="blue" title="BUTTON ONE" height="40" width="100" />
+          <Button id="buttonOne" backgroundColor="blue" title="BUTTON ONE" height="40" width="100" onClick="alert('Button One Clicked')"/>
         </View>
         <View backgroundColor="pink" top="250" left="10" right="10" height="200">
-          <Button id="buttonTwo" backgroundColor="yellow" title="BUTTON TWO" height="40" width="100" />
+          <Button  backgroundColor="yellow" title="BUTTON TWO" height="40" width="100" onClick="this.buttonTwoClick.bind(this)"/>
         </View>
       </Window>     
-    )
+    </UI>
+  }
 
-}
 ```
 
 There is a [sample Magnium project here](https://github.com/magnatronus/magui-demo)
