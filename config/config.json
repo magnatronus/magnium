@@ -6,14 +6,16 @@
   "license": "ISC",
   "devDependencies": {
     "babel-plugin-transform-object-rest-spread": "6.26.0",
-    "babel-preset-env": "1.6.1"
+    "babel-preset-env": "1.6.1",
+    "babel-plugin-transform-react-jsx":"6.24.1"
   },
   "babel": {
     "presets": [
       "env"
     ],
     "plugins": [
-      "transform-object-rest-spread"
+      "transform-object-rest-spread",
+      "transform-react-jsx"
     ],
     "ignore": [
       "/system/static/*"

@@ -111,11 +111,12 @@ exports.handler = function (argv) {
 
     /** START Of UI generator testing ------------------------------------------------------------------------------- 
      */
-    let rootdir = `${projectbuilddir}/code`;
-    fs.readdirSync(rootdir).forEach(file => {
-        magpie.processFile(`${rootdir}/${file}`);
-    });
+    //let rootdir = `${projectbuilddir}/code`;
+    //fs.readdirSync(rootdir).forEach(file => {
+    //    magpie.processFile(`${rootdir}/${file}`);
+    //});
     /** END OF UI generator------------------------------------------------------------------------------------ */
+
 
     // make sure the final output dir exists
     fs.ensureDirSync(`${workspacedir}/${resource.output}`);
@@ -131,7 +132,7 @@ exports.handler = function (argv) {
     console.log( `${cmd.stdout.toString()}` );
 
 
-    // finish standard Ti prject prep
+    // finish standard Ti project prep
     if(fs.pathExistsSync(`${projectbuilddir}/aux`)){
 
         log((chalk.green("[INFO] - Finalising Magnium build......")));
@@ -149,6 +150,7 @@ exports.handler = function (argv) {
         fs.removeSync(`${projectbuilddir}/aux`);
     
     }
+    
     log((chalk.green("[INFO] - Magnium Build complete......")));    
   
 }

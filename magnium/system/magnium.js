@@ -95,12 +95,23 @@ export class Component {
 
   constructor(props={}){
 
+
+
+    this._self = this;
+    this.props = props;
+
     // if we have a beforeView run it first
     (this.beforeView) && (this.beforeView(props));
 
     // if defining a UI View generate it here
     if(this.generateView){
       this._view = this.generateView(props);
+    }
+
+    // test of a render method
+    if(this.render){
+      console.log('running render........................................');
+      this._view = this.render();
     }
 
     // now run afterView last
