@@ -18,6 +18,7 @@ const   args = require("yargs").argv,
         wsfile = `.magniumrc`,
         magfiles = require('../lib/magfiles').magFiles,
         auxfiles = require('../lib/magfiles').auxFiles,
+        miscfiles = require('../lib/magfiles').miscFiles,
         compiler = require('../lib/compiler'),        
         log = console.log;
 
@@ -108,9 +109,12 @@ exports.handler = function (argv) {
         }        
     });
 
-    // 6 the tiapp.xml
-    fs.copySync(`${projectrootdir}/tiapp.xml`, `${workspacedir}/${resource.output}/tiapp.xml`);
-    
+    // 6 the misc files
+    miscfiles.forEach( file =>{
+        if( fs.existsSync(`${projectrootdir}/${file.src}`)){
+            fs.copySync(`${projectrootdir}/${file.src}`, `${workspacedir}/${resource.output}/${file.dest}${file.src}`);
+        }
+    });
 
     log((chalk.green("[INFO] - Magnium Build complete......")));    
 
