@@ -11,18 +11,20 @@
 const   args = require("yargs").argv,
         chalk = require('chalk'),
         fs = require("fs-extra"),
+        path = require('path'),
+        klawSync = require('klaw-sync'),
         spawn = require( 'child_process' ).spawnSync,
         workspacedir = process.cwd(),
-        wsfile = `.magniumrc`,        
+        wsfile = `.magniumrc`,
+        magfiles = require('../lib/magfiles').magFiles,
+        auxfiles = require('../lib/magfiles').auxFiles,
+        compiler = require('../lib/compiler'),        
         log = console.log;
 
 
-exports.command = 'build <name> [type] [theme]';
-exports.describe = 'Run a [type] build and transpile of the <name> Magnium project.';
+exports.command = 'build <name>  [theme]';
+exports.describe = 'Run a build and transpile of the <name> Magnium project using an optional <theme>.';
 exports.builder = {
-    type: {
-        default: "full"    
-    },
     theme: {
         default: 'default'
     }
@@ -47,99 +49,69 @@ exports.handler = function (argv) {
         process.exit(1);
     }
 
-    // need to do a full build so start with a clean dir
-    const projectbuilddir = `${workspacedir}/${resource.build}`;
-    if(argv.type === "full"){
+    // always start a build with a clean directory
+    log((chalk.green("[INFO] - Magnium cleaning output directory....")));
+    fs.removeSync(`${workspacedir}/${resource.output}`);
 
-        //  remove the final output dir
-        fs.removeSync(`${workspacedir}/${resource.output}`);
+    // make sure the output dir exists
+    fs.ensureDirSync(`${workspacedir}/${resource.output}/Resources`);
 
-        // clean the temp build dir  
-        log((chalk.green("[INFO] - Magnium Full build requested. Cleaning build directory....")));
-        fs.removeSync(projectbuilddir);
-        fs.ensureDirSync(`${projectbuilddir}/code`);
+    // 1. first transpile the standard magnium code into the output dir
+    compiler.generate(`${__dirname}/../magnium`,  `${workspacedir}/${resource.output}/Resources`, magfiles);
 
-        // copy the magnium stuff to the code directory
-        fs.copySync(`${__dirname}/../magnium`,`${projectbuilddir}/code`);
-
-        // copy the project theme to the code directory if it exists
-        if(fs.pathExistsSync(`${projectrootdir}/themes/${argv.theme}.js`)){
-            fs.copySync(`${projectrootdir}/themes/${argv.theme}.js`,`${projectbuilddir}/code/theme.js`);
-        }
-
-        // copy the package json file
-        fs.copySync(`${__dirname}/../config/config.json`,`${projectbuilddir}/package.json`);
-
-        // run npm install in the build dir
-        const cmd = spawn( `npm`, ["install", "--prefix", `${projectbuilddir}`] );
-        console.log( `${cmd.stdout.toString()}` );
-
-        // now copy all other project files we need and tidy up into the aux folder
-        fs.copySync(`${projectrootdir}`,`${projectbuilddir}/aux`);
-        fs.removeSync(`${projectbuilddir}/aux/app`);
-        fs.removeSync(`${projectbuilddir}/aux/themes`);
-        fs.removeSync(`${projectbuilddir}/aux/config.json`);
-        
-    }
-
-
-    // copy the source app dir to the code dir in prep for transpile
-    log((chalk.green("[INFO] - Updating Magnium app files......")));
-    fs.copySync(`${projectrootdir}/app`,`${projectbuilddir}/code`);
-
-    // now copy any erbium components that are required
+    // 2. copy any erbium components that are required
     log((chalk.green("[INFO] - Updating Magnium components......")));
-    let components = [];
+    let components = {transpile: []};
     try {
-    const config = JSON.parse(fs.readFileSync(`${projectrootdir}/config.json`, 'utf8'));
-    if(config.components && config.components.length > 0){
+        const config = JSON.parse(fs.readFileSync(`${projectrootdir}/config.json`, 'utf8'));
+        if(config.components && config.components.length > 0){
 
-        // make sure the components dir exists
-        fs.ensureDirSync(`${projectbuilddir}/code/components`);
+            // generate our list of components to transpile
+            config.components.forEach( function(comp){
+                components.transpile.push(`${comp}.js`);
+            });
 
-        // now copy any defined components
-        config.components.forEach( function(comp){
-            fs.copySync(`${__dirname}/../magnium-components/${comp}.js`,`${projectbuilddir}/code/components/${comp}.js`);
-        });
-        
-    }
+            // and transpile them
+            compiler.generate(`${__dirname}/../magnium-components`,  `${workspacedir}/${resource.output}/Resources/components`, components);
+                    
+        }
     } catch(ex) {
+        console.log(ex);
         log(chalk.yellow("[WARN] - no config.json file found in Magnium project, so no standard components copied."));
+    }    
+
+
+    // 3. Transpile the project app files
+    const filterFn = item => path.extname(item.path) === '.js';
+    const paths = klawSync(`${projectrootdir}/app`, { filter: filterFn });
+    if(paths){
+        log((chalk.green("[INFO] - Transpiling Magnium project files......")));    
+        paths.forEach( file => {
+            const destfile = file.path.substring(file.path.indexOf("/app/") + 5);
+            compiler.transpileFile(file.path,`${workspacedir}/${resource.output}/Resources/${destfile}`);
+        });
     }
 
+    // 4. Overwrite the theme if one specified
+    if(fs.pathExistsSync(`${projectrootdir}/themes/${argv.theme}.js`)){
+        log((chalk.green("[INFO] - Transpiling selected project theme......")));    
+        compiler.transpileFile(`${projectrootdir}/themes/${argv.theme}.js`,`${workspacedir}/${resource.output}/Resources/theme.js`);
+    } else {
+        log(chalk.yellow(`[WARN] - Specified theme does not exist in project - ${projectrootdir}/themes/${argv.theme}.js, so ignoring.`));        
+    }
 
-    // make sure the final output dir exists
-    fs.ensureDirSync(`${workspacedir}/${resource.output}`);
+    // 5 copy over the aux files
+    log((chalk.green("[INFO] - copying aux project files......")));    
+    auxfiles.forEach( dir => {
+        if( fs.existsSync(`${projectrootdir}/${dir.src}`)){
+            fs.copySync(`${projectrootdir}/${dir.src}`, `${workspacedir}/${resource.output}/${dir.dest}`);
+        }        
+    });
 
-    // run babel transpile
-    const params =  [
-        `${projectbuilddir}/code`,
-        "-d",
-        `${workspacedir}/${resource.output}/Resources`,
-        '--copy-files'
-    ];
-    const cmd = spawn( `${__dirname}/../node_modules/.bin/babel`, params );
-    console.log( `${cmd.stdout.toString()}` );
-
-
-    // finish standard Ti prject prep
-    if(fs.pathExistsSync(`${projectbuilddir}/aux`)){
-
-        log((chalk.green("[INFO] - Finalising Magnium build......")));
-
-        // copy the project assets to the Resources directory
-        fs.copySync(`${projectbuilddir}/aux/assets`,`${workspacedir}/${resource.output}/Resources`);
-
-        // remove assets from aux
-        fs.removeSync(`${projectbuilddir}/aux/assets`);
-
-        // copy everything else in aux to project root
-        fs.copySync(`${projectbuilddir}/aux`,`${workspacedir}/${resource.output}`);
-
-        // now remove aux (full build will recreate it)
-        fs.removeSync(`${projectbuilddir}/aux`);
+    // 6 the tiapp.xml
+    fs.copySync(`${projectrootdir}/tiapp.xml`, `${workspacedir}/${resource.output}/tiapp.xml`);
     
-    }
+
     log((chalk.green("[INFO] - Magnium Build complete......")));    
 
 }
