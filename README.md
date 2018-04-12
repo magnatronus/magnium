@@ -30,6 +30,11 @@ The CLI has now been updated to run as a single command with options. You can us
 - assets
 
 
+## 1.2 Update
+- The transpiler now uses babel-core. This  means there is no need to do an npm install ech time the transpile is run which makes it fast- er and more informative in case or errors.
+- **promises.core.min.js** is now deprecated and will be removed from the next version (if you use it anywhere just remove the import statement from your code), Promises will still work.
+
+
 # Using Magnium
 Magnium provides a simple framework that allows Titanium projects to be written using ES6. It does this by using it's own custom project structure that is transpiled into a standard Titanium classic project that can then be run on  simulator, device or compiled for distro using the Titanium CLI. Below is a quick overview of the steps to do this, all commands should be run in a Terminal.
 
