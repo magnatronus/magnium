@@ -31,7 +31,7 @@ The CLI has now been updated to run as a single command with options. You can us
 
 
 ## 1.2 Update
-- The transpiler now uses babel-core. This  means there is no need to do an npm install ech time the transpile is run which makes it fast- er and more informative in case or errors.
+- The transpiler now uses **babel-core**. This  means there is no need to do an npm install each time the transpile is run which makes it faster and more informative in case or errors.
 - **promises.core.min.js** is now deprecated and will be removed from the next version (if you use it anywhere just remove the import statement from your code), Promises will still work.
 
 
