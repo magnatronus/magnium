@@ -31,8 +31,9 @@ The CLI has now been updated to run as a single command with options. You can us
 
 
 ## 1.2 Update
-- The transpiler now uses **babel-core**. This  means there is no need to do an npm install each time the transpile is run which makes it faster and more informative in case or errors.
-- **promises.core.min.js** is now deprecated and will be removed from the next version (if you use it anywhere just remove the import statement from your code), Promises will still work.
+- The transpiler now uses **babel-core**. This  means there is no need to do the automated npm install each time the transpile is run which makes it faster and more informative in case or errors. If the transpile now stops because of an error the build will exit and the error will be displayed.
+- **promises.core.min.js** is now deprecated and will probabbly be removed from the next version (if you use it anywhere just remove the import statement from your code), Promises will still work.
+- If a directory called **support** exists at the root of a Magnium project (i.e. */projects/helloworld/support* ) then the files in this directory will be copied to the root of the Titanium dir when running the build command. This can be used to add project based files like keystores, images etc.
 
 
 # Using Magnium

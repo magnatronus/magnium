@@ -116,6 +116,11 @@ exports.handler = function (argv) {
         }
     });
 
+    // 7 lastly we will check the support dir and copy any files from there
+    if( fs.existsSync(`${projectrootdir}/support`)){
+        fs.copySync(`${projectrootdir}/support`, `${workspacedir}/${resource.output}/`);
+    }
+
     log((chalk.green("[INFO] - Magnium Build complete......")));    
 
 }
