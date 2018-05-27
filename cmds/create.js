@@ -105,10 +105,20 @@ exports.handler = function (argv) {
         });
     }
     
-    // now serialise nd re-save
+    // now serialise and re-save
     var xmlString = new XMLSerializer().serializeToString(customTiapp);
     fs.writeFileSync(`${workspacedir}/${resource.projects}/${argv.name}/tiapp.xml`, xmlString);
     
+    // now generate a min package.json so we can use npm modules
+    fs.writeJSONSync(`${workspacedir}/${resource.projects}/${argv.name}/app/package.json`,{
+        "name": `${argv.name}`,
+        "version": "1.0",
+        "description": "Magnium Project"
+    });
+    
+
+
+
     // and finish
     log(chalk.green("[INFO] - Magnium Project creation complete......"));
         
