@@ -112,7 +112,7 @@ exports.handler = function (argv) {
     // now generate a min package.json so we can use npm modules
     fs.writeJSONSync(`${workspacedir}/${resource.projects}/${argv.name}/app/package.json`,{
         "name": `${argv.name}`,
-        "version": "1.0",
+        "version": "1.0.0",
         "description": "Magnium Project"
     });
     
