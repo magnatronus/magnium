@@ -61,7 +61,7 @@ exports.handler = function (argv) {
         '-p',
         `${defaults.platforms}`,
         '--id',
-        `${defaults.appId}${args.name}`,
+        `${defaults.appId}${argv.name}`,
         '-u',
         `${defaults.url}`,
         "-d",
