@@ -93,15 +93,8 @@ exports.handler = function (argv) {
         });
     }
 
-    // 4. Overwrite the theme if one specified
-    if(fs.pathExistsSync(`${projectrootdir}/themes/${argv.theme}.js`)){
-        log((chalk.green("[INFO] - Transpiling selected project theme......")));    
-        compiler.transpileFile(`${projectrootdir}/themes/${argv.theme}.js`,`${workspacedir}/${resource.output}/Resources/theme.js`);
-    } else {
-        log(chalk.yellow(`[WARN] - Specified theme does not exist in project - ${projectrootdir}/themes/${argv.theme}.js, so ignoring.`));        
-    }
 
-    // 5 copy over the aux files
+    // 4 copy over the aux files
     log((chalk.green("[INFO] - copying aux project files......")));    
     auxfiles.forEach( dir => {
         if( fs.existsSync(`${projectrootdir}/${dir.src}`)){
@@ -109,17 +102,50 @@ exports.handler = function (argv) {
         }        
     });
 
-    // 6 the misc files
+    // 5 the misc files
     miscfiles.forEach( file =>{
         if( fs.existsSync(`${projectrootdir}/${file.src}`)){
             fs.copySync(`${projectrootdir}/${file.src}`, `${workspacedir}/${resource.output}/${file.dest}${file.src}`);
         }
     });
 
-    // 7 lastly we will check the support dir and copy any files from there
+    // 6  check the support dir and copy any files from there
     if( fs.existsSync(`${projectrootdir}/support`)){
         fs.copySync(`${projectrootdir}/support`, `${workspacedir}/${resource.output}/`);
     }
+
+    // 7. Overwrite the theme related files if one specified
+    // this is a theme file and theme related aux file and any theme related misc files
+    if(fs.pathExistsSync(`${projectrootdir}/themes/${argv.theme}`)){
+        log((chalk.green("[INFO] - Applying selected project theme......"))); 
+        
+        // first a theme file if one exists
+        if( fs.existsSync(`${projectrootdir}/themes/${argv.theme}/theme.js`)){
+            log((chalk.green("[INFO] - Copying theme file (theme.js)......"))); 
+            compiler.transpileFile(`${projectrootdir}/themes/${argv.theme}/theme.js`,`${workspacedir}/${resource.output}/Resources/theme.js`);
+        }
+
+        // Any theme related aux files
+        log((chalk.green("[INFO] - Checking for theme related aux files......"))); 
+        auxfiles.forEach( dir => {
+            if( fs.existsSync(`${projectrootdir}/themes/${argv.theme}/${dir.src}`)){
+                fs.copySync(`${projectrootdir}/themes/${argv.theme}/${dir.src}`, `${workspacedir}/${resource.output}/${dir.dest}`);
+            }        
+        });
+    
+        // Any misc related files
+        log((chalk.green("[INFO] - Checking for theme related misc files......"))); 
+        miscfiles.forEach( file =>{
+            if( fs.existsSync(`${projectrootdir}/themes/${argv.theme}/${file.src}`)){
+                fs.copySync(`${projectrootdir}/themes/${argv.theme}/${file.src}`, `${workspacedir}/${resource.output}/${file.dest}${file.src}`);
+            }
+        });
+    
+
+    } else {
+        log(chalk.yellow(`[WARN] - Specified theme does not exist in project - ${projectrootdir}/themes/${argv.theme}, so ignoring.`));        
+    }
+
 
     log((chalk.green("[INFO] - Magnium Build complete......")));    
 

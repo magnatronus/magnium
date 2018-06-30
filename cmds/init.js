@@ -48,7 +48,7 @@ exports.handler = function (argv) {
             "appId": "uk.spiralarm.",
             "loglevel": "info",
             "platforms": "ios,android",
-            "sdk": "7.0.2.GA",
+            "sdk": "7.2.0.GA",
             "url": "http://www.spiralarm.uk"
         };
 

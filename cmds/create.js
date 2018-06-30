@@ -117,8 +117,6 @@ exports.handler = function (argv) {
     });
     
 
-
-
     // and finish
     log(chalk.green("[INFO] - Magnium Project creation complete......"));
         

@@ -25,6 +25,10 @@ in a terminal.
 
 ## History
 
+
+### 1.2.1
+The theming in the build has been updated. Rather than just a theme.js file in the theme dir (or whatever name you have given the theme), the build now looks for a **theme directory**. If the specified directory exists it checks, as before for a theme.js file, but it now also re-checks for both theme based aux and misc files. This enables the beginning of a build based white labelling solution for theme related tiapp.xml, DefaultIcon.png and other asset files to be related to a specific theme build.
+
 ### 1.2
 - The transpiler now uses **babel-core**. This  means there is no need to do the automated npm install each time the transpile is run which makes it faster and more informative in case or errors. If the transpile now stops because of an error the build will exit and the error will be displayed.
 - **promises.core.min.js** is now deprecated and will probabbly be removed from the next version (if you use it anywhere just remove the import statement from your code), Promises will still work.
