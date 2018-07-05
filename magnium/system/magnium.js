@@ -95,6 +95,8 @@ export class Component {
 
   constructor(props={}){
 
+    this.props = props||{};
+
     // if we have a beforeView run it first
     (this.beforeView) && (this.beforeView(props));
 
@@ -110,6 +112,11 @@ export class Component {
 
   }
 
+  // used to obtain a possible filename for a UI definition file
+  getViewName(){ 
+    return `${this.constructor.name}.ui.js`; 
+  }
+
   // our destructor - kindof
   destroy() {
     console.log("destroy() called...................");
@@ -118,7 +125,11 @@ export class Component {
   // Getter to return the generate UI View
   get view() {
     if(!this._view) {
-      throw new Error('No view defined - either generateView is missing or it does not have the correct return value!');
+      //this._view = require(`${this.getViewName()}`).generateView(this.props);
+      if(!this._view){
+        //throw new Error(`No view defined - either generateView is missing, the UI file ${this.getViewName()} has not been created or it does not have the correct return value!`);
+        throw new Error(`No view defined - either generateView is missing or it does not have the correct return value!`);
+      }
     }
     return this._view;
   }

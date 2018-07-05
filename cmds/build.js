@@ -19,7 +19,8 @@ const   args = require("yargs").argv,
         magfiles = require('../lib/magfiles').magFiles,
         auxfiles = require('../lib/magfiles').auxFiles,
         miscfiles = require('../lib/magfiles').miscFiles,
-        compiler = require('../lib/compiler'),        
+        compiler = require('../lib/compiler'), 
+        guiGen = require('../lib/guigen'),       
         log = console.log;
 
 
@@ -81,8 +82,19 @@ exports.handler = function (argv) {
         log(chalk.yellow("[WARN] - no config.json file found in Magnium project, so no standard components copied."));
     }    
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // This is testing for GUI build substitution
+    const xmlFilter = item => path.extname(item.path) === '.xml';
+    const xmlPaths = klawSync(`${projectrootdir}/app`, { filter: xmlFilter });
+    if(xmlPaths){
+        log((chalk.green("[INFO] - Checking GUI files......")));    
+        xmlPaths.forEach( file => {
+            guiGen.processFile(file.path);
+        });
+    }
+     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // 3. Transpile the project app files
+    // 3b. Transpile the project app files
     const filterFn = item => path.extname(item.path) === '.js';
     const paths = klawSync(`${projectrootdir}/app`, { filter: filterFn });
     if(paths){
