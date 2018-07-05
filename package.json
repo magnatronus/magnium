@@ -1,6 +1,6 @@
 {
   "name": "magnium",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "An ES6 based framework for building Titanium mobile apps",
   "main": "./lib/magnium",
   "bin": {

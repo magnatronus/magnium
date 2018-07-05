@@ -92,7 +92,7 @@ exports.handler = function (argv) {
             compiler.transpileFile(file.path,`${workspacedir}/${resource.output}/Resources/${destfile}`);
         });
     }
-
+ 
 
     // 4 copy over the aux files
     log((chalk.green("[INFO] - copying aux project files......")));    
