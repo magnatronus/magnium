@@ -25,6 +25,8 @@ in a terminal.
 
 ## History
 
+### 1.2.2
+Bug fix- any aux files in the following dirs (i18n, platform, plugins, modules) were getting copied to the wrong destination
 
 ### 1.2.1
 The theming in the build has been updated. Rather than just a theme.js file in the theme dir (or whatever name you have given the theme), the build now looks for a **theme directory**. If the specified directory exists it checks, as before for a theme.js file, but it now also re-checks for both theme based aux and misc files. This enables the beginning of a build based white labelling solution for theme related tiapp.xml, DefaultIcon.png and other asset files to be related to a specific theme build.
