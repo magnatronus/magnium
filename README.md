@@ -25,6 +25,12 @@ in a terminal.
 
 ## History
 
+### 1.2.3
+The default project template has been updated to show one possoble way of re-skinning an app using the theme feature of the build command.
+
+As before the standard build the command is  **mag build {projectname}**, but an alternate skin and app icon can be applied by using **mag build {projectname} --theme test**.
+Just take a look an *index.js*  and the *theme/test* directory for more detail.
+
 ### 1.2.2
 Bug fix- any aux files in the following dirs (i18n, platform, plugins, modules) were getting copied to the wrong destination
 
