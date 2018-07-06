@@ -29,6 +29,10 @@ in a terminal.
 Quite a few updates in a short space of time, but I am working on integrating Magnium into my Jenkins build server, hence the flurry of changes. This time it is to the **assets** command.
 I have modified it so, again, a specific directory can be passed in as a argument to allow the **build workspace** to be used when generating any Android assets.
 
+- now as well as the standard command:  **mag assets**
+- it can also specify a directory to start in: **mag assets --dir {dir}**
+
+
 ### 1.2.4
 The build command has been updated so that it works standalone and the build does not need to be part of a Magnium Workspace. This was primarily done so that Magnium could be used with CI.
 It allows the build/transpile to be done within a defined workspace.  This has been tested on Jenkins and works as follows:
