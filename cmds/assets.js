@@ -17,11 +17,14 @@ const   args = require("yargs").argv,
         wsfile = `${process.cwd()}/.magniumrc`,
         configfile = `${process.cwd()}/tidefaults.json`;
 
-exports.command = 'assets [p]';
-exports.describe = 'Generates Android application icons and splash screens using TiCons.';
+exports.command = 'assets [p] [dir]';
+exports.describe = 'Generates Android application icons and splash screens using TiCons, defaults to the titanium build dir but can be overridden --dir.';
 exports.builder = {
     p: {
         default: 'android'
+    },
+    dir: {
+        default: 'titanium'
     }
 }
 exports.handler = function (argv) {
@@ -44,7 +47,7 @@ exports.handler = function (argv) {
 
     // generate the app icons from DefaultIcon
     const ticonshell = require("shelljs");
-    ticonshell.cd("titanium");
+    ticonshell.cd(argv.dir);
     ticonshell.exec("ticons -p android icons -r 10 DefaultIcon.png").stdout;
 
     // now the splash screens
