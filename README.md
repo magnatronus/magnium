@@ -29,8 +29,8 @@ in a terminal.
 The build command has been updated so that it works standalone and the build does not need to be part of a Magnium Workspace. This was primarily done so that Magnium could be used with CI.
 It allows the build/transpile to be done within a defined workspace.  This has been tested on Jenkins and works as follows:
 
-the usual build command:  **mag build {projectname}**
-for use with a CI system: **mag build {workspace} --ci**
+- the usual build command:  **mag build {projectname}**
+- for use with a CI system: **mag build {workspace} --ci**
 
 An actual example that has been used with Jenkins is the *Execute Shell Build* command shown below.
 
