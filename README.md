@@ -41,6 +41,12 @@ mag build "$WORKSPACE" --ci
 
 Where the project source has already been cloned from an SCM system.
 
+The final generated Titanium project is created in a **mag-build** directory as a child of the specified **workspace**. For example:
+
+- workspace dir: **/Users/abc/.jenkins/123-456/My App**
+- Titanium project location: **/Users/abc/.jenkins/123-456/My App/mag-build**
+
+
 ### 1.2.3
 The default project template has been updated to show one possible way of re-skinning an app using the theme feature of the build command.
 
