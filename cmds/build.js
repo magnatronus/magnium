@@ -1,6 +1,6 @@
 /**
  * build.js
- * CLI command to build a Magnium Project
+ * CLI command to build a Magnium Project either as part of a Magnium workspace or using  CI
  * 
  * @module build
  * 
@@ -23,7 +23,7 @@ const   args = require("yargs").argv,
 
 
 exports.command = 'build <name>  [theme] [ci]';
-exports.describe = 'Run a build and transpile of the <name> Magnium project using an optional <theme>.';
+exports.describe = 'Run a build and transpile of the <name> Magnium project using an optional <theme> and optional <ci> flag.';
 exports.builder = {
     theme: {
         default: 'default'

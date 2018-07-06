@@ -25,8 +25,24 @@ in a terminal.
 
 ## History
 
+### 1.2.4
+The build command has been updated so that it works standalone and the build does not need to be part of a Magnium Workspace. This was primarily done so that Magnium could be used with CI.
+It allows the build/transpile to be done within a defined workspace.  This has been tested on Jenkins and works as follows:
+
+the usual build command:  **mag build {projectname}**
+for use with a CI system: **mag build {workspace} --ci**
+
+An actual example that has been used with Jenkins is the *Execute Shell Build* command shown below.
+
+```
+echo "Starting Magnium Build...."
+mag build "$WORKSPACE" --ci
+```
+
+Where the project source has already been cloned from an SCM system.
+
 ### 1.2.3
-The default project template has been updated to show one possoble way of re-skinning an app using the theme feature of the build command.
+The default project template has been updated to show one possible way of re-skinning an app using the theme feature of the build command.
 
 As before the standard build the command is  **mag build {projectname}**, but an alternate skin and app icon can be applied by using **mag build {projectname} --theme test**.
 Just take a look an *index.js*  and the *theme/test* directory for more detail.
