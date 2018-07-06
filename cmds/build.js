@@ -14,7 +14,6 @@ const   args = require("yargs").argv,
         path = require('path'),
         klawSync = require('klaw-sync'),
         spawn = require( 'child_process' ).spawnSync,
-        workspacedir = process.cwd(),
         wsfile = `.magniumrc`,
         magfiles = require('../lib/magfiles').magFiles,
         auxfiles = require('../lib/magfiles').auxFiles,
@@ -23,27 +22,43 @@ const   args = require("yargs").argv,
         log = console.log;
 
 
-exports.command = 'build <name>  [theme]';
+exports.command = 'build <name>  [theme] [ci]';
 exports.describe = 'Run a build and transpile of the <name> Magnium project using an optional <theme>.';
 exports.builder = {
     theme: {
         default: 'default'
+    },
+
+    ci: {
+        default: false
     }
 };
 
 exports.handler = function (argv) {
 
-    // read in magnium resource info
     let resource = {};
-    try{
-        resource = fs.readJsonSync(`${workspacedir}/${wsfile}`);
-    } catch(ex) {
-        log(chalk.red(`[ERROR] - Unable to find ${wsfile} in current directory. If this is a new workspace run magnium-init first.`));
-        process.exit(1);
+    let projectrootdir;
+    let workspacedir = process.cwd();
+
+    if(argv.ci){
+        resource = {
+            output: "mag-build"
+        };
+        projectrootdir = argv.name;
+        workspacedir = argv.name;
+    } else {
+        // read in magnium resource info
+        try{
+            resource = fs.readJsonSync(`${workspacedir}/${wsfile}`);
+            projectrootdir = `${workspacedir}/${resource.projects}/${argv.name}`;
+
+        } catch(ex) {
+            log(chalk.red(`[ERROR] - Unable to find ${wsfile} in current directory. If this is a new workspace run magnium-init first.`));
+            process.exit(1);
+        }
     }
 
     // check for a project directory
-    const projectrootdir = `${workspacedir}/${resource.projects}/${argv.name}`;
     let tiappfile = `${projectrootdir}/tiapp.xml`;
     if(!fs.pathExistsSync(tiappfile)){
         log(chalk.red(`[ERROR] - project dir ${projectrootdir} does not exist or it is not an Magnium/Titanium project.`));
