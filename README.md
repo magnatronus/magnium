@@ -23,6 +23,11 @@ in a terminal.
     [sudo] npm install -g magnium
 
 
+## Jenkins Integration
+
+The CLI has been updated, as of **1.2.5** so that it will work in a Jenkins project build. For more information see the [Wiki page here](https://github.com/magnatronus/magnium/wiki/Jenkins-Build)
+
+
 ## History
 
 ### 1.2.5
@@ -118,12 +123,12 @@ This command was added to provide a quick way to generate some assets for an And
 It can be used to generate a default set of icons and splash screens for an Android app using the project's **DefaultIcon.png**.
 
 ```
-magnium assets
+magnium assets --dir {optional dir}
 ```
 
 If used it should be run after **magnium build** and before using the Ti CLI to build the Titanium project.
 
-**Please note this will only work if you have correctly installed [TiCons](http://ticons.fokkezb.nl/) and any required depedencies (imagemagick).**
+**Please note this will only work if you have correctly installed [TiCons](http://ticons.fokkezb.nl/) and any required dependencies (imagemagick).**
 
 
 ## More Detail
