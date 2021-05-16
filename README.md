@@ -1,5 +1,9 @@
 # Magnium CLI
 
+
+# NOTICE
+This project is no longer maintained and is now archived.
+
 Magnium is a 
 [Command Line Tool](http://en.wikipedia.org/wiki/Command-line_interface)
 and Framework for building Titanium based mobile applications using ES6.
